@@ -1,0 +1,6 @@
+
+(function(){
+  
+  <%= include 'namespace.js' %>
+
+})();
