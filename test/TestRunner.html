@@ -2,21 +2,16 @@
   <head>
     <title>GMTest - Unit Tests</title>
     
-    <script src="../../GMTest/js/Test.js"></script>
-    <script src="../../GMTest/js/AbstractTestRunner.js"></script>
-    
-    <script src="../../GMTest/js/SimpleTestRunner.js"></script>
-    <script src="../../GMTest/js/TestRunner.js"></script>
-    <script src="../../GMTest/js/TestSuite.js"></script>
-    <script src="../../GMTest/js/GreasemonkeyTestRunner.js"></script>
+    <script src="lib/monkeytest-0.2.1.js"></script>
     
     <script src="test_helper.js"></script>
+
     <script src="../src/namespace.js"></script>
     <script src="unit/namespace_test.js"></script>
     
     <script>
       window.addEventListener("load",function(){
-      TestRunner.run();
+        TestManager.run();
       }, true);
     </script>
     

@@ -1,8 +1,7 @@
-(function(){
   var _savedNamespaces = {}
-  _savedNamespaces["Utils"] = window.Utils;
+  _savedNamespaces["Utils"] = Utils;
   Utils = {};
-  
+    
   function getNamespace(nameParts){
     var root = window;
     for(var i=0; i<nameParts.length; i++){
@@ -94,5 +93,4 @@
       return Utils.revertNamespace(this.__NAMESPACE__);
     }
   }
-  
-})();
+

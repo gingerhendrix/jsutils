@@ -10,7 +10,7 @@ some.name.space.someFunction = function(){
 Utils.namespace("some.name.space");
 some.name.space = (function(){
   // ...
-  return { someFunction : function(){ /* .. */ }  };
+  return { someFunction : function(){ /* ... */ }  };
 })();
 
 //Namespace with extend
