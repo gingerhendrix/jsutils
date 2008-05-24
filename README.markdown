@@ -18,7 +18,7 @@ design.
 
 ### Utils.namespace
 
-    <Object namespace> Utils.namespace(<String namespace> [,  extensions ])
+`<Object namespace> Utils.namespace(<String namespace> [,  extensions ])`
 
 `namespace` creates a new global namespace object.  It takes a namespace
 argument which is a dot separated string containing the name of the namespace
@@ -58,7 +58,7 @@ source is extended with each of the elements in the array.
 
 ### Utils.replaceNamespace
 
-`<Object namespace> Utils.replaceNamespace(<String namespace> [,  extensions])
+`<Object namespace> Utils.replaceNamespace(<String namespace> [,  extensions])`
 
 `replaceNamespace` is a destructive version of `namespace`. `replaceNamespace`
 will replace the namespace object (but not it's predecessors in the chain) if
@@ -79,7 +79,7 @@ This method only works if the namespace was initially created with
 
 ### Utils.Extendable
 
-`<Extendable>.extend(extension [, extensions]) `
+`<Extendable>.extend(extension [, extensions])`
 
 `Extendable` is a mixin object which adds extend abilities to any object.
 
@@ -101,7 +101,7 @@ object.
 
 `<Revertable>.revertNamespace()`
 
- `Revertable` is a mixin object which adds `revertNamespace` to a namespace
+`Revertable` is a mixin object which adds `revertNamespace` to a namespace
 object created with `replaceNamespace`.
 
     Utils.replaceNamespace("SomeNamespace", Utils.Revertable)
