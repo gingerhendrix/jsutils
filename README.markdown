@@ -3,17 +3,16 @@
 JSUtils is a lightweight javascript library, built to encourage modular code
 design.
 
-  * [Download][7] - [ [latest][8] | [0.1.1][9] ]
+* [Download][7] - [latest][8] | [0.1.1][9] 
+* [Source @ GitHub][10]
 
-  * [Source @ GitHub ][10]
+[7]: http://projects.linode.gandrew.com/jsUtils/dist/
 
-   [7]: http://projects.linode.gandrew.com/jsUtils/dist/
+[8]: http://projects.linode.gandrew.com/jsUtils/dist/jsUtils.js
 
-   [8]: http://projects.linode.gandrew.com/jsUtils/dist/jsUtils.js
+[9]: http://projects.linode.gandrew.com/jsUtils/dist/jsUtils-0.1.1.js
 
-   [9]: http://projects.linode.gandrew.com/jsUtils/dist/jsUtils-0.1.1.js
-
-   [10]: http://github.com/gingerhendrix/jsutils
+[10]: http://github.com/gingerhendrix/jsutils
 
 ## API Reference
 
