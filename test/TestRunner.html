@@ -1,22 +1,22 @@
 <html>
   <head>
-    <title>GMTest - Unit Tests</title>
+    <title>JSUtils - Unit Tests</title>
     
-    <script src="lib/monkeytest-0.2.1.js"></script>
+    <script type="text/javascript" src="lib/monkeytest-0.2.1.js"></script>
     
-    <script src="test_helper.js"></script>
+    <script type="text/javascript" src="test_helper.js"></script>
 
-    <script src="../src/namespace.js"></script>
-    <script src="unit/namespace_test.js"></script>
+    <script type="text/javascript" src="../src/namespace.js"></script>
+    <script type="text/javascript" src="unit/namespace_test.js"></script>
     
-    <script>
-      window.addEventListener("load",function(){
-        TestManager.run();
-      }, true);
+    <script type="text/javascript">
+      function start(){
+         TestManager.run();
+      }
     </script>
     
   </head>
-  <body>
+  <body onload="start();">
     
   </body>
 </html>
