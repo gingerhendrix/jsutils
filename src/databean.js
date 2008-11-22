@@ -3,7 +3,7 @@ Utils.namespace("Utils", {
     this.properties = {};
     
     this.connect = function(name, obj, method){
-      Utils.Signal.connect(this, name, obj, method);
+      Utils.signals.connect(this, name, obj, method);
     }
     
     this.makeProp = function(prop){
@@ -11,7 +11,7 @@ Utils.namespace("Utils", {
       this[prop] = function(val){
         if(arguments.length > 0 && val != this.properties[prop]){
           this.properties[prop] = val;
-          MochiKit.Signal.signal(this, prop, val);              
+          Utils.signals.signal(this, prop, val);              
         }
         return this.properties[prop];
       }
