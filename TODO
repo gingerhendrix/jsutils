@@ -3,10 +3,14 @@
 
 * Create signals library
 * Add databean class from mushub
-* Add basic cross-platform http requests including <script> tag based JSONP support
+* Add basic cross-platform http requests
 * Add datasource library
 
-== 0.2.x
+== 0.2.1
+
+* Add script tag based JSONP support
+
+== Future
 
 * Add JSBeans library from Pierrot - and refactor databean
 * Add package dependencies or use those from Base2

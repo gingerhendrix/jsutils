@@ -37,3 +37,29 @@ Utils.http.get = function(uri, callback, errback){
   req.send(null); 
 }
 
+(function(){
+  var counter = 0;
+  
+  Utils.http.scriptRequestCallback = function(scriptId){
+    return function(response){
+    
+    }
+  };
+
+  Utils.http.scriptRequest =  function(uri, jsonp, callback, errback){
+    var scriptEl = document.createElement("script");
+    var scriptId = "scriptRequest_" + "" + new Date() + "_" + counter++;
+    var fullUri = uri + "&"+jsonp+"=Utils.http.scriptRequestCallback(" + scriptId + ")"; //TODO: Support urls without query string
+    
+    scriptEl.setAttribute("id", scriptId);
+    scriptEl.setAttribute("type", "text/javascript");
+    scriptEl.setAttribute("src", fullUri);
+
+    var reqTimeout = function(){
+    
+    }    
+    
+ }
+
+})();
+
