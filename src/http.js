@@ -13,7 +13,7 @@ Utils.http.createXMLHttpRequest = function(){
   } else {
       throw new Error("XMLHttpRequest not supported");
   }
-}
+};
 
 
 Utils.http.get = function(uri, callback, errback){
@@ -35,10 +35,12 @@ Utils.http.get = function(uri, callback, errback){
     }
   };
   req.send(null); 
-}
+};
 
 (function(){
+
   var counter = 0;
+  var callbacks = {};
   
   Utils.http.scriptRequestCallback = function(scriptId){
     return function(response){
@@ -51,15 +53,20 @@ Utils.http.get = function(uri, callback, errback){
     var scriptId = "scriptRequest_" + "" + new Date() + "_" + counter++;
     var fullUri = uri + "&"+jsonp+"=Utils.http.scriptRequestCallback(" + scriptId + ")"; //TODO: Support urls without query string
     
-    scriptEl.setAttribute("id", scriptId);
+    scriptEl.setAttribute("id", "scriptRequest_" + scriptId);
     scriptEl.setAttribute("type", "text/javascript");
     scriptEl.setAttribute("src", fullUri);
+
+    var callback = function(){
+    
+    }
 
     var reqTimeout = function(){
     
     }    
     
+    return scriptId;
  }
 
 })();
-
+ 

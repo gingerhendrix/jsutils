@@ -94,5 +94,13 @@ new TestSuite("Http Tests", {
 		t.assert(errbackCalls==1, "Expected errback to be called once - called " + errbackCalls + " times");
   },  
   
+  testScriptRequest : function(t){
+    var scriptId = Utils.http.scriptRequest("URI", "jsonp", function(){ /* Callback */}, function(){ /* Errback */ })
+    //TODO: Write some actual tests
+    // Test script element is appended.
+    // Test correct url
+    // Test callback function
+    // Test timeout
+  }
   
 });
