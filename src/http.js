@@ -40,30 +40,39 @@ Utils.http.get = function(uri, callback, errback){
 (function(){
 
   var counter = 0;
-  var callbacks = {};
+  var scriptRequests = {};
   
   Utils.http.scriptRequestCallback = function(scriptId){
-    return function(response){
-    
-    }
+    var scriptEl = document.getElementById(scriptId);
+    scriptEl.parentNode.removeChild(scriptEl);
+    window.clearTimeout(scriptRequests[scriptId].errTimer);
+    return scriptRequests[scriptId].callback;
+  };
+  
+  Utils.http.scriptRequestErrback = function(scriptId){
+    var scriptEl = document.getElementById(scriptId);
+    scriptEl.parentNode.removeChild(scriptEl);
+    scriptRequests[scriptId].errback();
   };
 
-  Utils.http.scriptRequest =  function(uri, jsonp, callback, errback){
+  Utils.http.scriptRequest =  function(uri, jsonp, callback, errback, timeout){
+    timeout = timeout || 2000;
     var scriptEl = document.createElement("script");
     var scriptId = "scriptRequest_" + "" + new Date() + "_" + counter++;
     var fullUri = uri + "&"+jsonp+"=Utils.http.scriptRequestCallback(" + scriptId + ")"; //TODO: Support urls without query string
     
-    scriptEl.setAttribute("id", "scriptRequest_" + scriptId);
+    scriptEl.setAttribute("id", scriptId);
     scriptEl.setAttribute("type", "text/javascript");
     scriptEl.setAttribute("src", fullUri);
 
-    var callback = function(){
+    var errTimer = window.setTimeout(function(){Utils.http.scriptRequestErrback(scriptId);}, timeout);
     
-    }
+    scriptRequests[scriptId] = 
+      { callback : callback,
+        errback : errback,
+        errTimer : errTimer };
 
-    var reqTimeout = function(){
-    
-    }    
+    document.getElementsByTagName("head")[0].appendChild(scriptEl);
     
     return scriptId;
  }

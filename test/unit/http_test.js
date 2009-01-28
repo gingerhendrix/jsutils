@@ -96,11 +96,39 @@ new TestSuite("Http Tests", {
   
   testScriptRequest : function(t){
     var scriptId = Utils.http.scriptRequest("URI", "jsonp", function(){ /* Callback */}, function(){ /* Errback */ })
-    //TODO: Write some actual tests
-    // Test script element is appended.
-    // Test correct url
-    // Test callback function
-    // Test timeout
-  }
+    var continuation = t.continueWithTimeout(function(){
+      var scriptEl = document.getElementById(scriptId);
+      t.assert(scriptEl, "scriptEl is undefined");   
+      t.assert(scriptEl.getAttribute('type') == 'text/javascript', "Wrong type - " + scriptEl.getAttribute('type'));
+      t.assert(scriptEl.getAttribute('src') == 'URI&jsonp=Utils.http.scriptRequestCallback('+scriptId+')', "Wrong src - " + scriptEl.getAttribute('src'));
+    }, 100);
+    window.setTimeout(continuation, 1);
+  },
+  
+  testScriptRequestCallback : function(t){
+     var response = { "data" : "test" }
+     var continuation = t.continueWithTimeout(function(t, data){
+        t.assert(data.data == "test", "Invalid data " + data.toSource());
+        
+        var scriptEl = document.getElementById(scriptId);
+        t.assert(!scriptEl, "scriptEl has not been removed");   
+     }, 100);
+     
+     var scriptId = Utils.http.scriptRequest("URI", "jsonp", continuation, function(){ throw new Error("Errback should not be called") })
+      window.setTimeout(function(){
+        Utils.http.scriptRequestCallback(scriptId)(response); 
+      }, 1);
+  },
+  
+  testScriptRequestErrback : function(t){
+     var continuation = t.continueWithTimeout(function(){
+        var scriptEl = document.getElementById(scriptId);
+        t.assert(!scriptEl, "scriptEl has not been removed");   
+     }, 100);
+     
+     var scriptId = Utils.http.scriptRequest("URI", "jsonp", function(){ throw new Error("Callback should not be called") }, continuation, 10)
+  },
+  
+  
   
 });
