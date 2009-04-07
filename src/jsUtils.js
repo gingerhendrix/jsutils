@@ -7,4 +7,7 @@
   
   <%= include 'namespace.js' %>
   <%= include 'signals.js' %>
+  <%= include 'databean.js' %>
+  <%= include 'http.js' %>
+
 })();
