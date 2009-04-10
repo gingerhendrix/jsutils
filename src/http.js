@@ -58,8 +58,8 @@ Utils.http.get = function(uri, callback, errback){
   Utils.http.scriptRequest =  function(uri, jsonp, callback, errback, timeout){
     timeout = timeout || 2000;
     var scriptEl = document.createElement("script");
-    var scriptId = "scriptRequest_" + "" + new Date() + "_" + counter++;
-    var fullUri = uri + "&"+jsonp+"=Utils.http.scriptRequestCallback(" + scriptId + ")"; //TODO: Support urls without query string
+    var scriptId = "scriptRequest_" + "" + Date.now() + "_" + counter++;
+    var fullUri = uri + "&"+jsonp+"=Utils.http.scriptRequestCallback(\"" + scriptId + "\")"; //TODO: Support urls without query string
     
     scriptEl.setAttribute("id", scriptId);
     scriptEl.setAttribute("type", "text/javascript");
