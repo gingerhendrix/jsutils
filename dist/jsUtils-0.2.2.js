@@ -240,6 +240,27 @@ Utils.namespace("Utils.signals", (function(){
     }
    }
 })() );
+  Utils.namespace("Utils", {
+ DataBean : function(){
+    this.properties = {};
+
+    this.connect = function(name, obj, method){
+      Utils.signals.connect(this, name, obj, method);
+    }
+
+    this.makeProp = function(prop){
+
+      this[prop] = function(val){
+        if(arguments.length > 0 && val != this.properties[prop]){
+          this.properties[prop] = val;
+          Utils.signals.signal(this, prop, val);
+        }
+        return this.properties[prop];
+      }
+
+    }
+  }
+});
 
 Utils.namespace("Utils.http");
 
@@ -300,8 +321,8 @@ Utils.http.get = function(uri, callback, errback){
   Utils.http.scriptRequest =  function(uri, jsonp, callback, errback, timeout){
     timeout = timeout || 2000;
     var scriptEl = document.createElement("script");
-    var scriptId = "scriptRequest_" + "" + Date.now() + "_" + counter++;
-    var fullUri = uri + "&"+jsonp+"=Utils.http.scriptRequestCallback(\"" + scriptId + "\")"; //TODO: Support urls without query string
+    var scriptId = "scriptRequest_" + "" + new Date() + "_" + counter++;
+    var fullUri = uri + "&"+jsonp+"=Utils.http.scriptRequestCallback(" + scriptId + ")"; //TODO: Support urls without query string
 
     scriptEl.setAttribute("id", scriptId);
     scriptEl.setAttribute("type", "text/javascript");
@@ -321,45 +342,5 @@ Utils.http.get = function(uri, callback, errback){
 
 })();
 
-  Utils.namespace("Utils", {
- DataBean : function(){
-    this.properties = {};
-
-    this.connect = function(name, obj, method){
-      Utils.signals.connect(this, name, obj, method);
-    }
-
-    this.makeProp = function(prop){
-
-      this[prop] = function(val){
-        if(arguments.length > 0 && val != this.properties[prop]){
-          this.properties[prop] = val;
-          Utils.signals.signal(this, prop, val);
-        }
-        return this.properties[prop];
-      }
-
-    }
-  }
-});
-  //Get artist name from URL
-function QueryString(qs){
-  this.parts = {};
-  var self = this;
-
-  if(qs.indexOf("?")==0){
-    qs = qs.substring(1);
-  }
-
-  qs.split("&").forEach(function(pair){
-    var bits = pair.split("=");
-    self.parts[bits[0]] = bits[1];
-  });
-
-}
-
-QueryString.fromLocation = function(){
-  return new QueryString(window.location.search);
-}
 
 })();

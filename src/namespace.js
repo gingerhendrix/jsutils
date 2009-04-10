@@ -1,3 +1,11 @@
+/** 
+  * The main jsUtils utility class. 
+  * 
+  * @class Utils
+  * @static
+  * @global
+  */
+
   var _savedNamespaces = {}
   _savedNamespaces["Utils"] = Utils;
   Utils = {};
@@ -10,7 +18,27 @@
     return root;  
   }
   
-
+  /**
+    * <code>namespace</code> creates a new global namespace object.  
+    * It takes a namespace argument which is a dot separated string containing the name of the namespace to be created eg.
+    * <pre>
+    *   Utils.namespace("some.name.space").
+    * </pre>
+    * If the named global object or any of the objects in the chain are not defined, it will create an empty object with 
+    * that name i.e. if no objects are defined the above code is equivalent to
+    * <pre>
+    *   var some = {}; 
+    *   some.name = {};
+    *   some.name.space = {};
+    * </pre>
+    * Any additional arguments are passed to <code>Utils.extend</code> which is called with the namespace object as the source.
+    *
+    * @method namespace
+    * @param name {String} A dot separated namespace name eg. 'Utils.some.namespace'
+    * @param extensions {Object*} An object containing attributes to be added to the namespace.
+    * @return {Object} the namespace object
+    */
+  
   Utils.namespace = function(name /*, extensions */){
     var nameParts = name.split(".");
     var root = (this != Utils) ? this : window;
@@ -26,6 +54,16 @@
     return root;
   }
   
+  /**
+   replaceNamespace is a destructive version of namespace. replaceNamespace will replace the namespace
+   object (but not it's predecessors in the chain) if it is already defined. replaceNamespace also records 
+   the original value of the namespace object, so that it can be recovered with revertNamespace.
+   
+   @method replaceNamespace
+   @param name {String} A dot separated namespace name eg. 'Utils.some.namespace'
+   @param extensions {Object*} An object containing attributes to be added to the namespace.
+   @return {Object} the namespace object
+  */
   
   Utils.replaceNamespace = function(name /*, extensions */){
     Utils.namespace(name);
@@ -40,7 +78,17 @@
      
     return parent[tail];
   }
-  
+  /**
+    revertNamespace allows the namespace to be renamed in case of conflict.  This method only works if the
+    namespace was initially created with replaceNamespace.
+    <pre>
+    var NewNamespace = Utils.revertNamespace("SomeNamespace") 
+    </pre>
+    
+    @method revertNamespace
+    @param name {String} A dot separated namespace name eg. 'Utils.some.namespace'
+    @return {Object} the namespace object
+  */
   Utils.revertNamespace = function(name){
     if(arguments.length==0){
       name = "Utils";
@@ -53,6 +101,18 @@
     return namespace; 
   }
   
+  /**
+    extend takes a source argument which is the object to be extended, and at least one extension argument. 
+    If the extension argument is an Object then the properties of the extension are copied to the source argument.  
+    If the extension argument is a Function then the the function is called and the source is extended with the 
+    return value of the function.  If the extension argument is an Array or there are more than one extension 
+    arguments, the source is extended with each of the elements in the array.
+    
+    @method extend
+    @param {object} source the object to be extended
+    @param {object* or Array} extensions 
+    
+   */
   Utils.extend = function(obj, extension /*, extensions */){
     if(arguments.length > 2){
       for(var i=1; i<arguments.length; i++){
@@ -76,19 +136,74 @@
     return obj;
   }
   
+  /**
+    Extendable is a mixin object which adds extend abilities to any object.
+    @class Extendable
+    @namespace Utils
+    @for Utils
+    @static
+  */
   Utils.Extendable = {
+    /**
+      Synonym for Utils.extend(this, extensions)      
+      
+      @method extend
+      @param {object* | Array} extensions
+    */
     extend : function(extension /*, extensions */){
       return Utils.extend(this,  Array.prototype.slice.call(arguments));
     }
   }
   
+  /**
+    Namespaceable is a mixin object which adds namespace abilities to any object. 
+    @class Namespaceable
+    @namespace Utils
+    @for Utils
+    @static
+  */
   Utils.Namespaceable = {
+    /**
+      Creates a namespace with the current object as it's root.
+      
+      <pre>
+      Utils.namespace("SomeNamespace", Utils.Namespaceable)  
+      SomeNamespace.namespace("Utils") 
+      </pre>
+      This will create the namespace <code>SomeNamespace.Utils</code>
+      
+      @method namespace
+      @param name {String} A dot separated namespace name eg. 'Utils.some.namespace'
+      @param extensions {Object*} An object containing attributes to be added to the namespace.
+      @return {Object} the namespace object
+      */
+
     namespace : function(namespace /*, extensions */){
      return  Utils.namespace.apply(this, Array.prototype.slice.call(arguments));
     }
   }
-  
+
+  /**
+    Revertable is a mixin object which adds revertNamespace to a namespace object created with replaceNamespace. 
+    
+    @class Revertable
+    @namespace Utils
+    @for Utils
+    @static
+  */  
   Utils.Revertable = {
+  /**
+      Reverts the current namespace.
+      
+      <pre>
+      Utils.replaceNamespace("SomeNamespace", Utils.Revertable)
+      var NewNamespace = SomeNamespace.revertNamespace()
+      </pre>
+      This will rename <code>SomeNamespace</code> as <code>NewNameSpace</code> and restore the previous contents of <code>SomeNamespace</code>.
+      
+      @method revertNamespace
+      @return {Object} the namespace object
+    */
     revertNamespace : function(){
       return Utils.revertNamespace(this.__NAMESPACE__);
     }
