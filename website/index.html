@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <link rel="stylesheet" href="stylesheets/screen.css" type="text/css" media="screen" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>
+      jsUtils 0.2.0
+  </title>
+  <script src="javascripts/rounded_corners_lite.inc.js" type="text/javascript"></script>
+<style>
+
+</style>
+  <script type="text/javascript">
+    window.onload = function() {
+      settings = {
+          tl: { radius: 10 },
+          tr: { radius: 10 },
+          bl: { radius: 10 },
+          br: { radius: 10 },
+          antiAlias: true,
+          autoPad: true,
+          validTags: ["div"]
+      }
+      var versionBox = new curvyCorners(settings, document.getElementById("version"));
+      versionBox.applyCornersToAll();
+    }
+  </script>
+</head>
+<body>
+<div id="main">
+
+    <h1>jsUtils 0.2.0</h1>
+    <div id="version" class="clickable" onclick='document.location = "/dist/jsUtils-0.2.0.js"; return false'>
+      <p>Get Version</p>
+      <a href="/dist/jsUtils-0.2.0.js" class="numbers">0.2.0</a>
+    </div>
+    <div class="body">
+      <h1>README</h1>
+
+<p>JSUtils is a lightweight javascript library, built to encourage modular code
+design.</p>
+
+<ul>
+<li><a href="http://projects.linode.gandrew.com/jsUtils/dist/">Download</a> - <a href="http://projects.linode.gandrew.com/jsUtils/dist/jsUtils.js">latest</a> | <a href="http://projects.linode.gandrew.com/jsUtils/dist/jsUtils-0.1.1.js">0.1.1</a> </li>
+<li><a href="http://github.com/gingerhendrix/jsutils">Source @ GitHub</a></li>
+</ul>
+
+<h2>API Reference</h2>
+
+<h3>Utils.namespace</h3>
+
+<p><code>&lt;Object namespace&gt; Utils.namespace(&lt;String namespace&gt; [,  extensions ])</code></p>
+
+<p><code>namespace</code> creates a new global namespace object.  It takes a namespace
+argument which is a dot separated string containing the name of the namespace
+to be created eg. <code>Utils.namespace("some.name.space")</code>.  If the named global
+object or any of the objects in the chain are not defined, it will create an
+empty object with that name i.e. if no objects are defined the above code is
+equivalent to <code>var some = {}; some.name = {}; some.name.space = {};</code></p>
+
+<p>Any additional arguments are passed to <code>extend</code> which is called with the
+namespace object as the source.</p>
+
+<pre><code>Utils.namespace("some.name.space", function(){ 
+    // Private scope 
+    return {
+      someFunction : function(){ /* ... */ } 
+    };
+});
+</code></pre>
+
+<h3>Utils.extend</h3>
+
+<p><code>&lt;Object source&gt; Utils.extend(&lt;Object source&gt;, extension [,  extensions ])</code></p>
+
+<p><code>extend</code> takes a source argument which is the object to be extended, and at
+least one extension argument.  If the extension argument is an <code>Object</code> then
+the properties of the extension are copied to the source argument.  If the
+extension argument is a <code>Function</code> then the the function is called and the
+source is extended with the return value of the function.  If the extension
+argument is an <code>Array</code> or there are more than one extension arguments, the
+source is extended with each of the elements in the array.</p>
+
+<pre><code>Utils.extend(someObject, function(){ 
+    // ... 
+    return { 
+      someFunction :  function(){ /* ... */ } 
+    };
+});
+</code></pre>
+
+<h3>Utils.replaceNamespace</h3>
+
+<p><code>&lt;Object namespace&gt; Utils.replaceNamespace(&lt;String namespace&gt; [,  extensions])</code></p>
+
+<p><code>replaceNamespace</code> is a destructive version of <code>namespace</code>. <code>replaceNamespace</code>
+will replace the namespace object (but not it's predecessors in the chain) if
+it is already defined. <code>replaceNamespace</code> also records the original value of
+the namespace object, so that it can be recovered with <code>revertNamespace</code>.</p>
+
+<pre><code>Utils.replaceNamespace("SomeNamespace")
+</code></pre>
+
+<h3>Utils.revertNamespace</h3>
+
+<p><code>&lt;Object namespace&gt; Utils.revertNamespace(&lt;String namespace&gt;)</code></p>
+
+<p><code>revertNamespace</code> allows the namespace to be renamed in case of conflict.
+This method only works if the namespace was initially created with
+<code>replaceNamespace</code>.</p>
+
+<pre><code>var NewNamespace = Utils.revertNamespace("SomeNamespace")
+</code></pre>
+
+<h3>Utils.Extendable</h3>
+
+<p><code>&lt;Extendable&gt;.extend(extension [, extensions])</code></p>
+
+<p><code>Extendable</code> is a mixin object which adds extend abilities to any object.</p>
+
+<pre><code>Utils.extend(someObject, Utils.Extendable);
+someObject.extend({ someFunc : function(){} } );
+</code></pre>
+
+<h3>Utils.Namespaceable</h3>
+
+<p><code>&lt;Namespaceable&gt;.namespace(name [, extensions])</code></p>
+
+<p><code>Namespaceable</code> is a mixin object which adds namespace abilities to any
+object. </p>
+
+<pre><code>Utils.namespace("SomeNamespace", Utils.Namespaceable);
+SomeNamespace.namespace("Utils");
+// SomeNamespace.Utils.someFunc = ...
+</code></pre>
+
+<h3>Utils.Revertable</h3>
+
+<p><code>&lt;Revertable&gt;.revertNamespace()</code></p>
+
+<p><code>Revertable</code> is a mixin object which adds <code>revertNamespace</code> to a namespace
+object created with <code>replaceNamespace</code>.</p>
+
+<pre><code>Utils.replaceNamespace("SomeNamespace", Utils.Revertable)
+var NewNamespace = SomeNamespace.revertNamespace()
+</code></pre>    
+    </div>
+
+    <p class="coda">
+      <a href="http://gandrew.com/">Gareth Andrew</a>, 24th May 2008<br>
+      Theme extended from <a href="http://rb2js.rubyforge.org/">Paul Battley</a> and <a href="http://newgem.rubyforge.org/">Dr. Nic</a>
+    </p>
+</div>
+
+  <script src="http://gandrew.com/mint?js" type="text/javascript"></script>
+</body>
+</html>
