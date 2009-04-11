@@ -1,7 +1,20 @@
-
+/** 
+  * The main jsUtils http helpers namespace. 
+  * 
+  * @class Utils.http
+  * @static
+  * @global
+  */
+  
 Utils.namespace("Utils.http");
 
-
+/**
+  * A low-level utility method for obtaining a new XMLHttpRequest 
+  * in a cross-browser manner.
+  *
+  * @method createXMLHttpRequst
+  * @return {XMLHttpRequest} an implementation of XMLHttpRequest
+*/
 Utils.http.createXMLHttpRequest = function(){
   //Borrowed form Ajax Cookbook - http://ajaxcookbook.org/xmlhttprequest/
   //Might be better off a fully-fledged wrapper like Sergey Illinsky's
@@ -15,7 +28,14 @@ Utils.http.createXMLHttpRequest = function(){
   }
 };
 
-
+/**
+  * A simple method for performing an asynchonous GET request via xhr
+  *
+  * @method get
+  * @param uri {String} the uri to retrieve
+  * @param callback {Function} the function to call when the data is available, the function will be called with xhr object as its first argument.
+  * @param errback {Function} the function to call an error occurs or the request.status != 200, the function will be called with xhr object as its first argument.
+*/
 Utils.http.get = function(uri, callback, errback){
   var req = Utils.http.createXMLHttpRequest();
   req.open('GET', uri, true);
@@ -55,6 +75,17 @@ Utils.http.get = function(uri, callback, errback){
     scriptRequests[scriptId].errback();
   };
 
+/**
+  * A simple method for performing an asynchonous jsonp GET request via the script tag.
+  * This can be used for loading data cross-domain.  The data provider must support json requests.
+  *
+  * @method scriptRequest
+  * @param uri {String} the uri to retrieve
+  * @param jsonp {String} the request-parameter to use to provide the jsonp callback to the service
+  * @param callback {Function} the function to call when the data is available, the function will be called with the deserialized json as its first argument.
+  * @param errback {Function} the function to call when an error occurs
+  * @param timeout an optional time before the scriptRequest gives up and calls the errback.
+*/
   Utils.http.scriptRequest =  function(uri, jsonp, callback, errback, timeout){
     timeout = timeout || 2000;
     var scriptEl = document.createElement("script");
