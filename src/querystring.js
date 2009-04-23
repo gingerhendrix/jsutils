@@ -1,4 +1,6 @@
-//Get artist name from URL
+
+//TODO: Namespace and document.  Also consider query string generator.
+
 function QueryString(qs){
   this.parts = {};
   var self = this;
