@@ -1,8 +1,6 @@
 
 begin
-  require 'rake_remote_task'
 
-  role :app_server, APP_SERVER
   
   def archive
     commit = `git-rev-list --max-count=1 --abbrev=10 --abbrev-commit HEAD`.chomp

@@ -9,6 +9,8 @@ end
 require 'rake'
 require 'rake/clean'
 require 'rake/packagetask'
+require 'rake_remote_task'
+
 
 $:.unshift File.dirname(__FILE__) + "/lib"
 
@@ -25,7 +27,8 @@ APP_PKG_DIR  = File.join(APP_ROOT, 'pkg')
 
 DEPLOY_ROOT = "/var/web/projects/#{APP_NAME}"
 ON_DEPLOY_RESTART = []
-APP_SERVER = "linode.gandrew.com"
+APP_SERVER = "gandrew.com"
+role :app, APP_SERVER
 
 task :default => [:dist, :package, :clean_package_source]
 
