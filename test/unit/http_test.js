@@ -100,7 +100,7 @@ new TestSuite("Http Tests", {
       var scriptEl = document.getElementById(scriptId);
       t.assert(scriptEl, "scriptEl is undefined");   
       t.assert(scriptEl.getAttribute('type') == 'text/javascript', "Wrong type - " + scriptEl.getAttribute('type'));
-      t.assert(scriptEl.getAttribute('src') == 'URI&jsonp=Utils.http.scriptRequestCallback('+scriptId+')', "Wrong src - " + scriptEl.getAttribute('src'));
+      t.assert(scriptEl.getAttribute('src') == 'URI&jsonp=Utils.http.scriptRequestCallback("'+scriptId+'")', "Wrong src - " + scriptEl.getAttribute('src'));
     }, 100);
     window.setTimeout(continuation, 1);
   },

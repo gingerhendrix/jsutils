@@ -5,7 +5,7 @@ require 'bluecloth'
 
 
 desc 'Generate website files'
-task :website_generate do
+task :website_generate => [:docs, :dist] do
   # Stolen/Adapted from newgem and its txt2html script
   #
   
@@ -38,7 +38,7 @@ task :website_generate do
 
   title= "#{APP_NAME} #{APP_VERSION}"
   version = APP_VERSION
-  download = "/dist/#{APP_NAME}-#{APP_VERSION}.js"
+  download = "dist/#{APP_NAME}-#{APP_VERSION}.js"
   
   stat = File.stat(src)
   created = stat.ctime
@@ -47,7 +47,15 @@ task :website_generate do
   File.open('website/index.html', "w") do |out|
     out << template.result(binding)
   end
-
+  
+  sh 'rm -rf website/dist'
+  sh 'rm -rf website/docs'
+  sh 'rm -rf website/test'
+  sh 'rm -rf website/src'
+  sh 'cp -r dist/ website/'
+  sh 'cp -r docs/generator website/docs'
+  sh 'cp -r test website/test'
+  sh 'cp -r src website/src'
 end
 
 desc 'Upload website files to gandrew.com'
