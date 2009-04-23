@@ -2,6 +2,8 @@
 # The location of your yuidoc install
 yuidoc_home=/usr/local/share/yuidoc
 
+project="jsUtils"
+projecturl="http://projects.gandrew.com/jsUtils/"
 # The location of the files to parse.  Parses subdirectories, but will fail if
 # there are duplicate file names in these directories.  You can specify multiple
 # source trees:
@@ -29,4 +31,4 @@ yuiversion=2
 ##############################################################################
 # add -s to the end of the line to show items marked private
 
-$yuidoc_home/bin/yuidoc.py $parser_in -p $parser_out -o $generator_out -t $template -v $version -Y $yuiversion
+$yuidoc_home/bin/yuidoc.py $parser_in -p $parser_out -o $generator_out -t $template -v $version -Y $yuiversion --project $project --projecturl $projecturl
